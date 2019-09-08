@@ -1,0 +1,11 @@
+p {
+  padding: 10px 0 10px 10px;
+}
+
+ul {
+  padding-left: 25px;
+}
+
+span {
+  text-transform: capitalize;
+}

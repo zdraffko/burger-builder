@@ -2,6 +2,8 @@ import React, { Component } from "react";
 
 import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
+import Modal from "../../components/UI/Modal/Modal";
+import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 
 class BurgerBuilder extends Component {
   ingredientsPrices = {
@@ -19,6 +21,14 @@ class BurgerBuilder extends Component {
       bacon: 0
     },
     price: 2,
+    isPurchasable: false,
+    isOrdered: false,
+  };
+
+  checkIsBurgerPurchasable = (ingredients) => {
+    const ingredientSum = Object.values(ingredients)
+      .reduce((totalSum, currentValue) => totalSum + currentValue, 0);
+    return ingredientSum > 0;
   };
 
   addIngredientHandler = (type) => {
@@ -28,8 +38,9 @@ class BurgerBuilder extends Component {
 
       ingredients[type]++;
       price += this.ingredientsPrices[type];
+      const isPurchasable = this.checkIsBurgerPurchasable(ingredients);
 
-      return { ingredients, price };
+      return { ingredients, price, isPurchasable };
     });
   };
 
@@ -45,9 +56,18 @@ class BurgerBuilder extends Component {
 
       ingredients[type]--;
       price -= this.ingredientsPrices[type];
+      const isPurchasable = this.checkIsBurgerPurchasable(ingredients);
 
-      return { ingredients, price };
+      return { ingredients, price, isPurchasable };
     });
+  };
+
+  orderHandler = () => {
+    this.setState({ isOrdered: true });
+  };
+
+  orderCancelHandler = () => {
+    this.setState({ isOrdered: false });
   };
 
   render() {
@@ -59,9 +79,14 @@ class BurgerBuilder extends Component {
 
     return (
       <>
+        <Modal isShown={this.state.isOrdered} closeModal={this.orderCancelHandler}>
+          <OrderSummary ingredients={this.state.ingredients} />
+        </Modal>
         <Burger ingredients={this.state.ingredients} />
-        <div>Total price is: {this.state.price}$</div>
         <BuildControls
+          price={this.state.price}
+          isPurchasable={this.state.isPurchasable}
+          order={this.orderHandler}
           addIngredient={this.addIngredientHandler}
           removeIngredient={this.removeIngredientHandler}
           disabledIngredients={disabledIngredients}

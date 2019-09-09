@@ -27,4 +27,4 @@ Modal.propTypes = {
   closeModal: PropTypes.func.isRequired,
 };
 
-export default Modal;
+export default React.memo(Modal, (prevProps, nextProps) => prevProps.isShown === nextProps.isShown);

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import "./OrderSummary.module.css";
 
-const OrderSummary = ({ ingredients }) => {
+const OrderSummary = ({ ingredients, price }) => {
   const ingredientsList = Object.keys(ingredients)
     .map((ingredient) => {
       if (ingredients[ingredient] === 0) {
@@ -25,11 +25,15 @@ const OrderSummary = ({ ingredients }) => {
       <ul>
         {ingredientsList}
       </ul>
+      <h3>Your total price is: {price}$</h3>
       <p>Continue to Checkout?</p>
     </>
   );
 };
 
-OrderSummary.propTypes = { ingredients: PropTypes.objectOf(PropTypes.number).isRequired };
+OrderSummary.propTypes = {
+  ingredients: PropTypes.objectOf(PropTypes.number).isRequired,
+  price: PropTypes.number.isRequired,
+};
 
 export default OrderSummary;

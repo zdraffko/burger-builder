@@ -1,0 +1,6 @@
+.Content {
+  display: flex;
+  flex-flow: column;
+  padding-top: 72px;
+  height: 100vh;
+}

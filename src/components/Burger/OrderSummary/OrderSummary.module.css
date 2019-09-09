@@ -1,9 +1,13 @@
+h3 {
+  color: #c15711;
+}
+
 p {
   padding: 10px 0 10px 10px;
 }
 
 ul {
-  padding-left: 25px;
+  padding: 0 0 10px 25px;
 }
 
 span {

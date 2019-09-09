@@ -4,6 +4,7 @@ import Burger from "../../components/Burger/Burger";
 import BuildControls from "../../components/Burger/BuildControls/BuildControls";
 import Modal from "../../components/UI/Modal/Modal";
 import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
+import Button from "../../components/UI/Button/Button";
 
 class BurgerBuilder extends Component {
   ingredientsPrices = {
@@ -62,13 +63,17 @@ class BurgerBuilder extends Component {
     });
   };
 
-  orderHandler = () => {
+  createOrderHandler = () => {
     this.setState({ isOrdered: true });
   };
 
-  orderCancelHandler = () => {
+  cancelOrderHandler = () => {
     this.setState({ isOrdered: false });
   };
+
+  submitOrderHandler = () => {
+    alert("Thank you for your purchase!");
+  }
 
   render() {
     const disabledIngredients = { ...this.state.ingredients };
@@ -79,14 +84,16 @@ class BurgerBuilder extends Component {
 
     return (
       <>
-        <Modal isShown={this.state.isOrdered} closeModal={this.orderCancelHandler}>
-          <OrderSummary ingredients={this.state.ingredients} />
+        <Modal isShown={this.state.isOrdered} closeModal={this.cancelOrderHandler}>
+          <OrderSummary ingredients={this.state.ingredients} price={this.state.price} />
+          <Button buttonType="Success" click={this.submitOrderHandler}>CONTINUE</Button>
+          <Button buttonType="Fail" click={this.cancelOrderHandler}>CANCEL</Button>
         </Modal>
         <Burger ingredients={this.state.ingredients} />
         <BuildControls
           price={this.state.price}
           isPurchasable={this.state.isPurchasable}
-          order={this.orderHandler}
+          order={this.createOrderHandler}
           addIngredient={this.addIngredientHandler}
           removeIngredient={this.removeIngredientHandler}
           disabledIngredients={disabledIngredients}

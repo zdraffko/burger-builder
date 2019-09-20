@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Route } from "react-router-dom";
+import { Route, Redirect, Switch } from "react-router-dom";
 
 import Layout from "./containers/Layout/Layout";
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
@@ -10,8 +10,12 @@ class App extends Component {
     return (
       <div>
         <Layout>
-          <Route path="/burger-builder" component={BurgerBuilder} />
-          <Route path="/checkout" component={Checkout} />
+          <Switch>
+            <Route path="/burger-builder" component={BurgerBuilder} />
+            <Route path="/checkout" component={Checkout} />
+            <Redirect exact from="/" to="/burger-builder" />
+            <Route render={() => <div>404</div>} />
+          </Switch>
         </Layout>
       </div>
     );

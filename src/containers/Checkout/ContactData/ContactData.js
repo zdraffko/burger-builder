@@ -5,16 +5,30 @@ import styles from "./ContactData.module.css";
 
 class ContactData extends Component {
   state = {
-    firstName: "",
-    lastName: "",
-    email: "",
+    customerInfo: {
+      firstName: "zdr",
+      lastName: "avko",
+      email: "test@gmail.com",
+    }
   }
 
   orderHandler = (event) => {
     event.preventDefault();
-    console.log(this.props.ingredients);
-    console.log(this.props.price);
-    this.props.history.push("/");
+    const orderId = Number(sessionStorage.getItem("orderCount")) + 1;
+    sessionStorage.setItem("orderCount", String(orderId));
+
+    const order = {
+      id: orderId,
+      ingredients: { ...this.props.ingredients },
+      price: this.props.price,
+      customerInfo: { ...this.state.customerInfo }
+    };
+
+    const orders = JSON.parse(sessionStorage.getItem("orders"));
+    orders.push(order);
+    sessionStorage.setItem("orders", JSON.stringify(orders));
+
+    this.props.history.push("/burger-builder");
   }
 
   render() {

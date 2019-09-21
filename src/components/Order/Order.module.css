@@ -5,3 +5,11 @@
   padding: 10px;
   margin: 10px auto;
 }
+
+.Order span {
+  text-transform: capitalize;
+  display: inline-block;
+  margin: 0 8px;
+  padding: 5px;
+  border: 1px solid #ccc;
+}

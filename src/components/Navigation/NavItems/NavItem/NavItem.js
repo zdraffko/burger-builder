@@ -6,7 +6,7 @@ import styles from "./NavItem.module.css";
 
 const NavItem = ({ link, children }) => (
   <li className={styles.NavItem}>
-    <NavLink to={link}>{children}</NavLink>
+    <NavLink to={link} activeClassName={styles.active}>{children}</NavLink>
   </li>
 );
 

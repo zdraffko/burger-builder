@@ -9,7 +9,10 @@ const Order = ({ ingredients, price, customerInfo }) => {
     <div className={styles.Order}>
       <p>Ingredients: {transformedIngredients}</p>
       <p>Price: {price}</p>
-      <p>Order is for: {customerInfo.firstName} {customerInfo.lastName}, with the following e-mail: {customerInfo.email}</p>
+      <p>
+        Order is for: {customerInfo.firstName.value} {customerInfo.lastName.value},
+        with the following e-mail: {customerInfo.email.value}
+      </p>
     </div>
   );
 };

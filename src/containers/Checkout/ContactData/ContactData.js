@@ -11,17 +11,27 @@ class ContactData extends Component {
       type: "text",
       placeholder: "First Name",
       value: "",
+      validationRules: { isRequired: true },
+      isValid: false,
+      isTouched: false,
     },
     lastName: {
       type: "text",
       placeholder: "Last Name",
       value: "",
+      validationRules: { isRequired: true },
+      isValid: false,
+      isTouched: false,
     },
     email: {
       type: "email",
       placeholder: "E-mail",
       value: "",
+      validationRules: { isRequired: true },
+      isValid: false,
+      isTouched: false,
     },
+    isFormValid: false,
   }
 
   orderHandler = (event) => {
@@ -48,10 +58,39 @@ class ContactData extends Component {
     this.setState((prevState) => {
       const newState = { ...prevState };
       const newInputField = { ...newState[inputField] };
+
       newInputField.value = inputValue;
+      newInputField.isValid = this.checkIsInputValid(inputValue, newInputField.validationRules);
+      newInputField.isTouched = true;
       newState[inputField] = newInputField;
+
+      newState.isFormValid = this.checkIsFormValid(newState);
+
       return newState;
     });
+  }
+
+  checkIsInputValid = (inputValue, rules) => {
+    if (rules.isRequired) {
+      return inputValue.trim() !== "";
+    }
+    return true;
+  }
+
+  checkIsFormValid = (currentState) => {
+    let isFormValid = true;
+    for (const inputProperties of Object.values(currentState)) {
+      if (typeof (inputProperties) === "boolean") {
+        break;
+      }
+
+      if (!inputProperties.isValid) {
+        isFormValid = false;
+        break;
+      }
+    }
+
+    return isFormValid;
   }
 
   render() {
@@ -62,16 +101,22 @@ class ContactData extends Component {
           {
             Object.entries(this.state)
               .map(([input, properties]) => (
-                <Input
-                  key={input}
-                  type={properties.type}
-                  placeholder={properties.placeholder}
-                  value={properties.value}
-                  inputChange={(event) => this.inputChangeHandler(event, input)}
-                />
+                input !== "isFormValid"
+                  ? (
+                    <Input
+                      key={input}
+                      type={properties.type}
+                      placeholder={properties.placeholder}
+                      value={properties.value}
+                      isValid={properties.isValid}
+                      isTouched={properties.isTouched}
+                      inputChange={(event) => this.inputChangeHandler(event, input)}
+                    />
+                  )
+                  : null
               ))
           }
-          <Button buttonType="Success" click={this.orderHandler}>Order</Button>
+          <Button buttonType="Success" isDisabled={!this.state.isFormValid} click={this.orderHandler}>Order</Button>
         </form>
       </div>
     );

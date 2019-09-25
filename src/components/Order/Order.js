@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import styles from "./Order.module.css";
 
@@ -15,6 +16,11 @@ const Order = ({ ingredients, price, customerInfo }) => {
       </p>
     </div>
   );
+};
+
+Order.propTypes = {
+  ingredients: PropTypes.objectOf(PropTypes.number).isRequired,
+  price: PropTypes.string.isRequired,
 };
 
 export default Order;

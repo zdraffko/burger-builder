@@ -1,8 +1,10 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 
 import Button from "../../../components/UI/Button/Button";
 import Input from "../../../components/UI/Input/Input";
 
+import * as actionTypes from "../../../store/actions";
 import styles from "./ContactData.module.css";
 
 class ContactData extends Component {
@@ -50,6 +52,7 @@ class ContactData extends Component {
     orders.push(order);
     sessionStorage.setItem("orders", JSON.stringify(orders));
 
+    this.props.resetBurger();
     this.props.history.push("/burger-builder");
   }
 
@@ -123,4 +126,11 @@ class ContactData extends Component {
   }
 }
 
-export default ContactData;
+const mapStateToProps = (state) => ({
+  ingredients: state.ingredients,
+  price: state.price
+});
+
+const mapDispatchToProps = (dispatch) => ({ resetBurger: () => dispatch({ type: actionTypes.RESET_INGREDIENTS }) });
+
+export default connect(mapStateToProps, mapDispatchToProps)(ContactData);

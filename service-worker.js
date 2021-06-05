@@ -1,39 +1,29 @@
-/**
- * Welcome to your Workbox-powered service worker!
- *
- * You'll need to register this file in your web app and you should
- * disable HTTP caching for this file too.
- * See https://goo.gl/nhQhGp
- *
- * The rest of the code is auto-generated. Please don't update this file
- * directly; instead, make changes to your Workbox build configuration
- * and re-run your build process.
- * See https://goo.gl/2aRDsh
- */
-
-importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
-
-importScripts(
-  "/burger-builder/precache-manifest.d0e3cd79e37f30936ffa4fca217f8e2e.js"
+let CACHE_NAME = "BurgerBuilder";
+const urlsToCache = [
+"/",
+"/index.html",
+"/burger-builder",
+"/orders",
+];
+self.addEventListener("install", function(event) {
+// Perform install steps
+event.waitUntil(
+caches.open(CACHE_NAME)
+.then(function(cache) {
+console.log("Opened cache");
+return cache.addAll(urlsToCache);
+})
 );
-
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
+self.skipWaiting();
 });
-
-workbox.core.clientsClaim();
-
-/**
- * The workboxSW.precacheAndRoute() method efficiently caches and responds to
- * requests for URLs in the manifest.
- * See https://goo.gl/S9QRab
- */
-self.__precacheManifest = [].concat(self.__precacheManifest || []);
-workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
-
-workbox.routing.registerNavigationRoute(workbox.precaching.getCacheKeyForURL("/burger-builder/index.html"), {
-  
-  blacklist: [/^\/_/,/\/[^\/?]+\.[^\/]+$/],
-});
+ 
+self.addEventListener("fetch", function(event) {
+    event.respondWith(caches.match(event.request)
+    .then(function(response) {
+    if (response) {
+    return response;
+    }
+    return fetch(event.request);
+    })
+    );
+    });

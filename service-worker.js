@@ -1,9 +1,6 @@
 let CACHE_NAME = "BurgerBuilder";
 const urlsToCache = [
-"/",
-"/index.html",
-"/burger-builder",
-"/orders",
+"/burger-builder/"
 ];
 self.addEventListener("install", function(event) {
 // Perform install steps

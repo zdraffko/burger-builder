@@ -20,7 +20,7 @@ const Order = ({ ingredients, price, customerInfo }) => {
 
 Order.propTypes = {
   ingredients: PropTypes.objectOf(PropTypes.number).isRequired,
-  price: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
 };
 
 export default Order;
